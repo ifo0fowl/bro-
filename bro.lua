@@ -468,18 +468,7 @@ function Library:CreateWindow(config)
                 Parent=track
             })
             Corner(knob,10)
-            -- Subtle drop shadow for knob
-            local knobShadow = Create("ImageLabel",{
-                AnchorPoint=Vector2.new(0.5,0.5),
-                Position=UDim2.new(0.5,0,0.5,2),
-                Size=UDim2.new(1,12,1,12),
-                BackgroundTransparency=1,
-                Image="rbxthumb://type=Asset&id=6015897843&w=150&h=150",
-                ImageColor3=Color3.fromRGB(0,0,0),
-                ImageTransparency=default and 0.5 or 0.7,
-                ZIndex=knob.ZIndex-1,
-                Parent=knob
-            })
+            local knobStroke = Stroke(knob,Color3.fromRGB(0,0,0),default and 0.8 or 0.5,1)
 
             if default then
                 table.insert(Library.Registry,{Obj=track,Prop="BackgroundColor3"})
@@ -499,7 +488,7 @@ function Library:CreateWindow(config)
                     Tween(track,{BackgroundColor3=Library.Accent},0.25)
                     Tween(trackStroke,{Color=Library.Accent,Transparency=0.2},0.25)
                     Tween(knob,{Position=UDim2.new(1,-23,0.5,0),BackgroundColor3=Color3.fromRGB(255,255,255)},0.3,Enum.EasingStyle.Back)
-                    Tween(knobShadow,{ImageTransparency=0.5},0.25)
+                    Tween(knobStroke,{Transparency=0.8},0.25)
                 else
                     for i=#Library.Registry,1,-1 do
                         local o=Library.Registry[i].Obj
@@ -509,7 +498,7 @@ function Library:CreateWindow(config)
                     Tween(track,{BackgroundColor3=Theme.SwitchOff},0.25)
                     Tween(trackStroke,{Color=Theme.Line,Transparency=0.4},0.25)
                     Tween(knob,{Position=UDim2.new(0,3,0.5,0),BackgroundColor3=Theme.KnobOff},0.3,Enum.EasingStyle.Back)
-                    Tween(knobShadow,{ImageTransparency=0.7},0.25)
+                    Tween(knobStroke,{Transparency=0.5},0.25)
                 end
                 if not silent then pcall(cb,v) end
             end
@@ -591,8 +580,6 @@ function Library:CreateWindow(config)
 
             local knob=Create("Frame",{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new((def-min)/math.max(1,(max-min)),0,0.5,0),Size=UDim2.fromOffset(18,18),BackgroundColor3=Color3.fromRGB(255,255,255),BorderSizePixel=0,Parent=track})
             Corner(knob,9) Stroke(knob,Color3.fromRGB(0,0,0),0.7,1)
-            
-            local knobShadow = Create("ImageLabel",{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0.5,0,0.5,2),Size=UDim2.new(1,10,1,10),BackgroundTransparency=1,Image="rbxthumb://type=Asset&id=6015897843&w=150&h=150",ImageColor3=Color3.fromRGB(0,0,0),ImageTransparency=0.6,ZIndex=knob.ZIndex-1,Parent=knob})
 
             local S={Value=def,Flag=flag} local drag=false
             local function setX(x)
